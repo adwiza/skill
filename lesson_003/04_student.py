@@ -13,9 +13,9 @@ educational_grant, expenses = 10000, 12000
 
 month = 9
 get_sum = expenses - educational_grant
-delta_month = expenses * 0.03  # Вычисляем сумму удорожания проживания за месяц
 while month != 0:
-    expenses += delta_month
+    delta = expenses * 0.03  # Вычисляем сумму удорожания проживания
+    expenses += delta
     get_sum += expenses - educational_grant
     month -= 1
-print(f'Студенту надо попросить {get_sum}')
+print(f'Студенту надо попросить {get_sum:.2f}')
