@@ -1,3 +1,11 @@
+# -*- coding: utf-8 -*-
+
+# (цикл for)
+import simple_draw as sd
+
+# Нарисовать стену из кирпичей. Размер кирпича - 100х50
+# Использовать вложенные циклы for
+
 import simple_draw as sd
 
 width = 100
