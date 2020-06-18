@@ -37,14 +37,24 @@ y = 50
 angle = 30
 point0 = sd.get_point(x, y)
 
-v1 = sd.get_vector(start_point=point0, angle=angle, length=length, width=3)
-v1.draw()
 
-v2 = sd.get_vector(start_point=v1.end_point, angle=angle+120, length=length, width=3)
-v2.draw()
+def triangle(point0, angle=0):
+    """ Эта функция
+    рисует треугольник."""
 
-v3 = sd.get_vector(start_point=v2.end_point, angle=angle+240, length=length, width=3)
-v3.draw()
+    v1 = sd.get_vector(start_point=point0, angle=angle, length=length, width=3)
+    v1.draw()
+
+    v2 = sd.get_vector(start_point=v1.end_point, angle=angle+120, length=length, width=3)
+    v2.draw()
+
+    v3 = sd.get_vector(start_point=v2.end_point, angle=angle+240, length=length, width=3)
+    v3.draw()
+
+
+for angle in range(0, 361, 30):
+    point0 = sd.get_point(200, 200)
+    triangle(point0, angle)
 
 # Рисуем квадрат
 length = 150
