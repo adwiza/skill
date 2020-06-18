@@ -52,9 +52,9 @@ def triangle(point0, angle=0):
     v3.draw()
 
 
-for angle in range(0, 361, 30):
-    point0 = sd.get_point(200, 200)
-    triangle(point0, angle)
+# for angle in range(0, 361, 30):
+#point0 = sd.get_point(200, 200)
+triangle(point0, angle)
 
 # Рисуем квадрат
 length = 150
