@@ -16,15 +16,14 @@ sd.resolution = (1200, 800)
 # и константы COLOR_RED, COLOR_ORANGE, COLOR_YELLOW, COLOR_GREEN, COLOR_CYAN, COLOR_BLUE, COLOR_PURPLE
 # Результат решения см lesson_004/results/exercise_02_global_color.jpg
 
-rainbow_colors = (sd.COLOR_RED, sd.COLOR_ORANGE, sd.COLOR_YELLOW, sd.COLOR_GREEN,
-                  sd.COLOR_CYAN, sd.COLOR_BLUE, sd.COLOR_PURPLE)
-
 
 def color_select():
     """ Эта функция выбора цвета
     для фигуры.
     """
-
+    # Досупные цвета
+    rainbow_colors = (sd.COLOR_RED, sd.COLOR_ORANGE, sd.COLOR_YELLOW, sd.COLOR_GREEN,
+                      sd.COLOR_CYAN, sd.COLOR_BLUE, sd.COLOR_PURPLE)
     print('Выберите цвет:')
     print('0: Красный')
     print('1: Оранжевый')
