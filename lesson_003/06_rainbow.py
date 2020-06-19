@@ -12,7 +12,7 @@ x_start = 50
 y_start = 50
 step = 5
 x_end = 500
-y_end = 500
+y_end = 550
 
 for color in rainbow_colors:
     line_color = color
