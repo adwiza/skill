@@ -8,32 +8,14 @@ import simple_draw as sd
 
 import simple_draw as sd
 
-width = 100
-height = 50
-y = 0
-y1 = height
-for i in range(12):
-    start_point = sd.get_point(0, y)
-    end_point = sd.get_point(600, y)
-    sd.line(start_point, end_point, sd.COLOR_ORANGE, width=3)
-    if i % 2 == 0:
-        x1 = 0
-        x2 = 0
-        for _ in range(7):
-            start_point = sd.get_point(x1, y)
-            end_point = sd.get_point(x2, y + y1)
-            sd.line(start_point, end_point, sd.COLOR_ORANGE, width=3)
-            x1 += width
-            x2 += width
-    else:
-        x1 = width/2
-        x2 = width/2
-        for _ in range(6):
-            start_point = sd.get_point(x1, y)
-            end_point = sd.get_point(x2, y + y1)
-            sd.line(start_point, end_point, sd.COLOR_ORANGE, width=3)
-            x1 += width
-            x2 += width
-    y += height
+brick_x, brick_y = 100, 50
 
+row = 0
+for y in range(0, sd.resolution[1], brick_y):
+    row += 1
+    for x in range(0, sd.resolution[0], brick_x):
+        x0 = x if row % 2 else x + brick_x // 2
+        left_bottom = sd.get_point(x0, y)
+        right_top = sd.get_point(x0 + brick_x, y + brick_y)
+        sd.rectangle(left_bottom=left_bottom, right_top=right_top, width=1)
 sd.pause()
