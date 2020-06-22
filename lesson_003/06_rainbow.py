@@ -15,10 +15,9 @@ x_end = 500
 y_end = 550
 
 for color in rainbow_colors:
-    line_color = color
     start_point = sd.get_point(x_start, y_start)
     end_point = sd.get_point(x_end, y_end)
-    sd.line(start_point=start_point, end_point=end_point, color=line_color, width=4)
+    sd.line(start_point=start_point, end_point=end_point, color=color, width=4)
     x_start += 5
     x_end += 5
 
