@@ -46,14 +46,16 @@
 from mastermind_engine import make_number, check_number
 
 make_number()
-# print(make_number())
+print(make_number())
 try_count = 1
 
 while True:
     input_number = input('Ввведите четырехзначноечисло: ')
     user_step = check_number(user_number=input_number)
     if user_step == ({'bulls': 4}, {'cows': 0}):
-        print(user_step)
+        bull = dict(user_step[0])
+        cows = dict(user_step[1])
+        print('Быки - ', bull['bulls'], 'Коровы - ', cows['cows'])
         print('Количество ходов', try_count)
         continue_game = input('Хотите еще партию?')
         if continue_game.lower() != 'y':
@@ -64,5 +66,7 @@ while True:
             continue
     else:
         try_count += 1
-        print(user_step)
+        bull = dict(user_step[0])
+        cows = dict(user_step[1])
+        print('Быки - ', bull['bulls'], 'Коровы - ', cows['cows'])
         continue
