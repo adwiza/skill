@@ -73,22 +73,23 @@ class House:
     def __str__(self):
         return f'В доме еды осталось {self.food}, денег осталось {self.money}'
 
-
-beavis = Man(name='Бивис')
-batthead = Man(name='Батхед')
+citizens = [
+    Man(name='Бивис'),
+    Man(name='Батхед'),
+    Man(name='Кенни'),
+]
 
 my_sweet_home = House()
+for citizen in citizens:
+    citizen.go_in_to_house(house=my_sweet_home)
 
-beavis.go_in_to_house(house=my_sweet_home)
-batthead.go_in_to_house(house=my_sweet_home)
-
-for day in range(1, 21):
+for day in range(1, 366):
     print(f'============= день {day} ==============')
-    beavis.act()
-    batthead.act()
+    citizen.act()
+    citizen.act()
     print('---------------в конце дня-----------------------')
-    print(beavis)
-    print(batthead)
+    for citizen in citizens:
+        print(citizen)
     print(my_sweet_home)
 
 
