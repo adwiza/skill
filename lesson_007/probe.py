@@ -34,7 +34,7 @@ class Man:
         self.fullness -= 10
 
     def shopping(self):
-        if self.money >= 50:
+        if self.house.money >= 50:
             self.house.money -= 50
             self.house.food += 50
             cprint(f'{self.name} сходил в магазин за едой', color='magenta')
