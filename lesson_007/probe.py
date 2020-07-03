@@ -29,8 +29,8 @@ class Man:
         else:
             cprint('{} нет еды'.format(self.name), color='red')
 
-    def play_DOTA(self):
-        cprint(f'{self.name} играл в доту целый день', color='green')
+    def watch_MTV(self):
+        cprint(f'{self.name} смотрел MTV целый день', color='green')
         self.fullness -= 10
 
     def shopping(self):
@@ -58,7 +58,7 @@ class Man:
         elif dice == 2:
             self.eat()
         else:
-            self.play_DOTA()
+            self.watch_MTV()
 
     def go_in_to_house(self, house):
         self.house = house
@@ -86,8 +86,10 @@ for day in range(1, 21):
     print(f'============= день {day} ==============')
     beavis.act()
     batthead.act()
+    print('---------------в конце дня-----------------------')
     print(beavis)
     print(batthead)
+    print(my_sweet_home)
 
 
 # print(vasya)
