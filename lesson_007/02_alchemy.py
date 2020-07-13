@@ -31,10 +31,10 @@ class Air:
     def __add__(self, other):
         new_object = Air()
         if other.name == 'Огонь':
-            new_object.name = 'Молния'
+            new_object.name = Lightning()
             return new_object.name
         elif other.name == 'Земля':
-            new_object.name = 'Пыль'
+            new_object.name = Dust()
             return new_object.name
         else:
             new_object.name = None
@@ -52,7 +52,7 @@ class Fire:
     def __add__(self, other):
         new_object = Fire()
         if other.name == 'Земля':
-            new_object.name = 'Лава'
+            new_object.name = Lava()
             return new_object.name
         else:
             new_object.name = None
@@ -79,13 +79,13 @@ class Water:
     def __add__(self, other):
         new_object = Fire()
         if other.name == 'Воздух':
-            new_object.name = 'Шторм'
+            new_object.name = Storm()
             return new_object.name
         elif other.name == 'Огонь':
-            new_object.name = 'Пар'
+            new_object.name = Steam()
             return new_object.name
         elif other.name == 'Земля':
-            new_object.name = 'Грязь'
+            new_object.name = Mud()
             return new_object.name
 
         else:
@@ -109,38 +109,44 @@ class Storm:
         return 'Шторм'
 
 
+class Mud:
+    def __init__(self):
+        self.name = 'Грязь'
+
+    def __str__(self):
+        return 'Грязь'
+
+
+class Lightning:
+    def __init__(self):
+        self.name = 'Молния'
+
+    def __str__(self):
+        return 'Молния'
+
+
+class Dust:
+    def __init__(self):
+        self.name = 'Пыль'
+
+    def __str__(self):
+        return 'Пыль'
+
+
+class Lava:
+    def __init__(self):
+        self.name = 'Лава'
+
+    def __str__(self):
+        return 'Лава'
+
+
 print(Air(), '+', Fire(), '=', Air() + Fire())
 print(Air(), '+', Earth(), '=', Air() + Earth())
 print(Fire(), '+', Earth(), '=', Fire() + Earth())
 print(Water(), '+', Air(), '=', Water() + Air())
 print(Water(), '+', Fire(), '=', Water() + Fire())
 print(Water(), '+', Earth(), '=', Water() + Earth())
-
-#
-# class Steam:
-#     def __str__(self):
-#         return 'Пар'
-#
-#
-# class Mud:
-#     def __str__(self):
-#         return 'Грязь'
-#
-#
-# class Lightning:
-#     def __str__(self):
-#         return 'Молния'
-#
-#
-# class Dust:
-#     def __str__(self):
-#         return 'Пыль'
-#
-#
-# class Lava:
-#     def __str__(self):
-#         return 'Лава'
-
 
 
 # Усложненное задание (делать по желанию)
