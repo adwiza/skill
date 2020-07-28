@@ -13,3 +13,8 @@ class Parent:
 
 class Man(Parent, Employee):
     """ Человек является и родителем и работником """
+    pass
+
+me = Man()
+print(me.childrens())
+print(me.salary())
