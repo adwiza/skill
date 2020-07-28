@@ -19,21 +19,26 @@ class Cat(Pet):
     def sound(self):
         print('Мяу!')
 
+
 class Bobtail(Cat):
     """ Бобтейл является Кошкой """
 
     has_tail = False
 
+
 class Dog(Pet):
     """ Собака является домашним животным """
+
     def sound(self):
         print('Гав!')
 
 
 class Hamster(Pet):
     """ Хомяк является домашним животным """
+
     def sound(self):
         print('Ццццц!')
+
 
 # print('Котик')
 # my_pet = Cat()
@@ -63,7 +68,6 @@ class Hamster(Pet):
 
 class CanFly():
 
-
     def __init__(self):
         self.altitude = 0  # метров
         self.velocity = 0  # км/ч
@@ -80,6 +84,7 @@ class CanFly():
 
     def __str__(self):
         return '{} Высота {} скрость {}'.format(self.__class__.__name__, self.altitude, self.velocity)
+
 
 class Butterfly(CanFly):
 
@@ -112,7 +117,6 @@ class Missile(CanFly):
 
     def destroy_enemy_base(self):
         print('БА-БАХ!')
-
 
 
 # butterfly = Butterfly()
