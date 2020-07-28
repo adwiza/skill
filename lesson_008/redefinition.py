@@ -37,12 +37,22 @@ class Robot:
 
 class WarRobot(Robot):
 
+    def __init__(self, model, gun):
+        super().__init__(model=model)
+        self.gun = gun
+
     def operate(self):
-        print('Робот охраняет военный объект')
+        super().operate()
+        print('Роот охраняет объекты с помощью', self.gun)
 
     def __str__(self):
         return '{} model {} Стой, Стрелять буду!'.format(self.__class__.__name__, self.model)
 
+class SubmarineRobot(WarRobot):
+
+    def operate(self):
+        super().operate()
+        print('Охрана ведется под водой')
 
 class VacuumCleaningRobot(Robot):
     def __init__(self, model):
@@ -50,13 +60,17 @@ class VacuumCleaningRobot(Robot):
         self.dust_bag = 0
 
     def operate(self):
-        print('Робот пылесосит пол')
+        print('Робот пылесосит пол, заполненность мешка для пыли {}'.format(self.dust_bag))
 
 
-r2d2 = WarRobot(model='R2D2')
-print(r2d2)
-r2d2.operate()
+# r2d2 = WarRobot(model='R2D2', gun='machinegun')
+# print(r2d2)
+# r2d2.operate()
+#
+# roomba = VacuumCleaningRobot(model='M505')
+# print(roomba)
+# roomba.operate()
 
-roomba = VacuumCleaningRobot(model='M505')
-print(roomba)
-roomba.operate()
+sub_robot = SubmarineRobot(model='DD5', gun='torpedo')
+print(sub_robot)
+sub_robot.operate()
