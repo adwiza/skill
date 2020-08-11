@@ -54,6 +54,10 @@ class House:
 
     def add_mud(self):
         self.mud += 5
+        if self.mud > 90:
+            serge.happiness -= 10
+            masha.happiness -= 10
+
 
 class Husband:
 
@@ -62,6 +66,8 @@ class Husband:
         self.fullness = 30
         self.happiness = 100
         self.money = 0
+        self.total_money = 0
+        self.total_food_husband = 0
         self.house = None
 
     def __str__(self):
@@ -73,10 +79,9 @@ class Husband:
             cprint(f'{self.name} умер от голода...', color='red')
         elif self.happiness < 10:
             cprint(f'{self.name} умер от депресии...', color='red')
-        return
+            return
 
         dice = randint(1, 6)
-
         if self.fullness < 20:
             self.eat()
         elif self.house.money < 50:
@@ -98,12 +103,14 @@ class Husband:
             cprint('{} поел'.format(self.name), color='yellow')
             self.fullness += 10
             self.house.food -= 10
+            self.total_food_husband += 10
         else:
             cprint('{} нет еды'.format(self.name), color='red')
 
     def work(self):
         cprint('{} сходил на работу'.format(self.name), color='blue')
         self.house.money += 150
+        self.total_money += 150
         self.fullness -= 10
 
     def play_WoT(self):
@@ -117,6 +124,8 @@ class Wife:
         self.name = name
         self.fullness = 30
         self.happiness = 100
+        self.fur_coat = 0
+        self.total_food_wife = 0
         self.house = None
 
     def __str__(self):
@@ -129,23 +138,18 @@ class Wife:
         elif self.happiness < 10:
             cprint(f'{self.name} умерла от депресии...', color='red')
             return
-        dice = randint(1, 6)
 
+        dice = randint(1, 6)
         if self.fullness < 20:
             self.eat()
         elif self.house.food < 10:
             self.shopping()
-        elif self.house.mud > 10:
+        elif self.house.mud > 100:
             self.clean_house()
         elif dice == 1:
-            if self.house.money >= 350:
-                self.bay_fur_coat()
-            return
+            self.bay_fur_coat()
         elif dice == 2:
-            if self.house.mud >= 100:
-                self.clean_house()
-            else:
-                return
+            self.clean_house()
         else:
             self.eat()
 
@@ -159,6 +163,7 @@ class Wife:
             cprint('{} поела'.format(self.name), color='yellow')
             self.fullness += 10
             self.house.food -= 10
+            self.total_food_wife += 10
         else:
             cprint('{} нет еды'.format(self.name), color='red')
 
@@ -166,17 +171,22 @@ class Wife:
         if self.house.money >= 50:
             self.house.money -= 50
             self.house.food += 50
+            self.fullness -= 10
             cprint(f'{self.name} сходила в магазин за едой', color='magenta')
         else:
             cprint(f'{self.name} деньги кончились', color='red')
 
     def bay_fur_coat(self):
-        self.house.money -= 350
-        self.happiness += 60
-        cprint(f'{self.name} купила шубу', color='yellow')
+        if self.house.money >= 350:
+            self.house.money -= 350
+            self.fullness -= 10
+            self.happiness += 60
+            self.fur_coat += 1
+            cprint(f'{self.name} купила шубу', color='yellow')
 
     def clean_house(self):
         self.house.mud -= 100
+        self.fullness -= 10
         cprint(f'{self.name} убралась в доме', color='yellow')
 
 
@@ -195,6 +205,8 @@ for day in range(365):
     cprint(serge, color='cyan')
     cprint(masha, color='cyan')
     cprint(home, color='cyan')
+
+cprint('Итоги года: Шуб  было куплено {}, денег заработано {}'.format(masha.fur_coat, serge.total_money), color='magenta')
 
 # TODO после реализации первой части - отдать на проверку учителю
 
