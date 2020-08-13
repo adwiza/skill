@@ -288,6 +288,7 @@ class Child:
 
     def eat(self):
         if self.house.food >= 10:
+            self.fullness += 10
             cprint('Малыш {} поел'.format(self.name), color='yellow')
             self.house.food -= 10
         else:
