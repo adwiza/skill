@@ -241,20 +241,40 @@ cprint('Итоги года: Шуб  было куплено {}, денег за
 
 class Cat:
 
-    def __init__(self):
-        pass
+    def __init__(self, name):
+        self.name = name
+        self.fullness = 50
+        self.house = None
 
-    def act(self):
-        pass
-
-    def eat(self):
-        pass
+    def __str__(self):
+        return f'Я кот {self.name}, сытость {self.fullness}'
 
     def sleep(self):
-        pass
+        self.fullness -= 10
+        cprint(f'Кот {self.name} спал весь день', color='green')
 
-    def soil(self):
-        pass
+    def eat(self):
+        self.fullness += 20
+        cprint(f'Кот {self.name} поел', color='yellow')
+
+    def tears_wallpaper(self):
+        self.fullness -= 10
+        self.house.mud += 5
+        cprint(f'Кот {self.name} драл обои', color='red')
+
+    def act(self):
+        if self.fullness <= 0:
+            cprint(f'{self.name} умер...', color='red')
+            return
+        dice_cat = randint(1, 6)
+        if self.fullness < 20:
+            self.eat()
+        elif dice_cat == 1:
+            self.tears_wallpaper()
+        elif dice_cat == 2:
+            self.eat()
+        else:
+            self.sleep()
 
 
 ######################################################## Часть вторая бис
