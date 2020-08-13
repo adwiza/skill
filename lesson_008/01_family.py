@@ -48,10 +48,12 @@ class House:
     def __init__(self):
         self.money = 100
         self.food = 50
+        self.cat_food = 50
         self.mud = 0
 
     def __str__(self):
-        return f'В доме еды осталось {self.food}, денег осталось {self.money}, грязь {self.mud}'
+        return f'В доме еды осталось {self.food}, корма для кота {self.cat_food}, ' \
+               f'денег осталось {self.money}, грязь {self.mud}'
 
     def add_mud(self):
         self.mud += 5
@@ -91,6 +93,8 @@ class Husband:
             self.work()
         elif dice == 2:
             self.eat()
+        elif dice == 3:
+            self.pet_the_cat()
         else:
             self.play_WoT()
 
@@ -119,6 +123,10 @@ class Husband:
         self.happiness += 20
         self.fullness -= 10
 
+    def pet_the_cat(self):
+        self.happiness += 5
+        self.fullness -= 10
+        cprint(f'{self.name} погладил кота', color='blue')
 
 class Wife:
 
@@ -146,12 +154,16 @@ class Wife:
             self.eat()
         elif self.house.food < 10:
             self.shopping()
+        elif self.house.cat_food < 10:
+            self.cat_food_shopping()
         elif self.house.mud > 100:
             self.clean_house()
         elif dice == 1:
             self.bay_fur_coat()
         elif dice == 2:
             self.clean_house()
+        elif dice == 3:
+            self.pet_the_cat()
         else:
             self.eat()
 
@@ -178,6 +190,14 @@ class Wife:
         else:
             cprint(f'{self.name} деньги кончились', color='red')
 
+    def cat_food_shopping(self):
+        if self.house.money >= 50:
+            self.house.money -= 50
+            self.house.cat_food += 50
+            cprint(f'{self.name} сходила в магазин за едой коту', color='magenta')
+        else:
+            cprint(f'{self.name} деньги кончились', color='red')
+
     def bay_fur_coat(self):
         if self.house.money >= 350:
             self.house.money -= 350
@@ -186,33 +206,15 @@ class Wife:
             self.fur_coat += 1
             cprint(f'{self.name} купила шубу', color='yellow')
 
+    def pet_the_cat(self):
+        self.happiness += 5
+        self.fullness -= 10
+        cprint(f'{self.name} погладила кота', color='yellow')
+
     def clean_house(self):
         self.house.mud -= 100
         self.fullness -= 10
         cprint(f'{self.name} убралась в доме', color='yellow')
-
-
-home = House()
-serge = Husband(name='Сережа')
-masha = Wife(name='Маша')
-
-serge.go_in_to_house(house=home)
-masha.go_in_to_house(house=home)
-
-for day in range(365):
-    cprint('================== День {} =================='.format(day), color='red')
-    serge.act()
-    masha.act()
-    home.add_mud()
-    cprint(serge, color='cyan')
-    cprint(masha, color='cyan')
-    cprint(home, color='cyan')
-
-cprint('Итоги года: Шуб  было куплено {}, денег заработано {}'.format(masha.fur_coat, serge.total_money),
-       color='magenta')
-
-
-# TODO после реализации первой части - отдать на проверку учителю
 
 ######################################################## Часть вторая
 #
@@ -255,12 +257,18 @@ class Cat:
 
     def eat(self):
         self.fullness += 20
+        self.house.cat_food -= 10
         cprint(f'Кот {self.name} поел', color='yellow')
 
     def tears_wallpaper(self):
         self.fullness -= 10
         self.house.mud += 5
         cprint(f'Кот {self.name} драл обои', color='red')
+
+    def go_in_to_house(self, house):
+        self.house = house
+        self.fullness -= 10
+        cprint(f'{self.name} заехал в дом!!!', color='cyan')
 
     def act(self):
         if self.fullness <= 0:
@@ -276,6 +284,29 @@ class Cat:
         else:
             self.sleep()
 
+
+home = House()
+serge = Husband(name='Сережа')
+masha = Wife(name='Маша')
+cat = Cat(name='Харлей')
+
+serge.go_in_to_house(house=home)
+masha.go_in_to_house(house=home)
+cat.go_in_to_house(house=home)
+
+for day in range(365):
+    cprint('================== День {} =================='.format(day), color='red')
+    serge.act()
+    masha.act()
+    cat.act()
+    home.add_mud()
+    cprint(serge, color='cyan')
+    cprint(masha, color='cyan')
+    cprint(cat, color='green')
+    cprint(home, color='cyan')
+
+cprint('Итоги года: Шуб  было куплено {}, денег заработано {}'.format(masha.fur_coat, serge.total_money),
+       color='magenta')
 
 ######################################################## Часть вторая бис
 #
