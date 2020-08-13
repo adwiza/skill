@@ -266,20 +266,36 @@ class Cat:
 
 class Child:
 
-    def __init__(self):
-        pass
+    def __init__(self, name):
+        self.name = name
+        self.fullness = 10
+        self.happiness = 100
+        self.house = None
 
     def __str__(self):
         return super().__str__()
 
     def act(self):
-        pass
+        if self.fullness <= 0:
+            cprint(f'Малыш {self.name} умер от голода...', color='red')
+            return
+
+        dice = randint(1, 6)
+        if self.fullness < 20:
+            self.eat()
+        elif dice == 1:
+            self.sleep()
 
     def eat(self):
-        pass
+        if self.house.food >= 10:
+            cprint('Малыш {} поел'.format(self.name), color='yellow')
+            self.house.food -= 10
+        else:
+            cprint('{} нет еды'.format(self.name), color='red')
 
     def sleep(self):
-        pass
+        self.fullness -= 10
+        cprint(f'Малыш {self.name} поспал', color='green')
 
 
 # TODO после реализации второй части - отдать на проверку учителем две ветки
