@@ -190,25 +190,23 @@ class Wife:
         cprint(f'{self.name} убралась в доме', color='yellow')
 
 
-home = House()
-serge = Husband(name='Сережа')
-masha = Wife(name='Маша')
+# home = House()
+# serge = Husband(name='Сережа')
+# masha = Wife(name='Маша')
 
-serge.go_in_to_house(house=home)
-masha.go_in_to_house(house=home)
+# serge.go_in_to_house(house=home)
+# masha.go_in_to_house(house=home)
 
-for day in range(365):
-    cprint('================== День {} =================='.format(day), color='red')
-    serge.act()
-    masha.act()
-    home.add_mud()
-    cprint(serge, color='cyan')
-    cprint(masha, color='cyan')
-    cprint(home, color='cyan')
+# for day in range(365):
+#     cprint('================== День {} =================='.format(day), color='red')
+#     serge.act()
+#     masha.act()
+#     home.add_mud()
+#     cprint(serge, color='cyan')
+#     cprint(masha, color='cyan')
+#     cprint(home, color='cyan')
 
-cprint('Итоги года: Шуб  было куплено {}, денег заработано {}'.format(masha.fur_coat, serge.total_money), color='magenta')
-
-# TODO после реализации первой части - отдать на проверку учителю
+# cprint('Итоги года: Шуб  было куплено {}, денег заработано {}'.format(masha.fur_coat, serge.total_money), color='magenta')
 
 ######################################################## Часть вторая
 #
@@ -273,7 +271,13 @@ class Child:
         self.house = None
 
     def __str__(self):
-        return super().__str__()
+        return f'Я {self.name}, сытость {self.fullness}, степень счастья {self.happiness}'
+        # return super().__str__()
+
+    def go_in_to_house(self, house):
+        self.house = house
+        self.fullness -= 3
+        cprint(f'{self.name} родился', color='cyan')
 
     def act(self):
         if self.fullness <= 0:
@@ -281,7 +285,7 @@ class Child:
             return
 
         dice = randint(1, 6)
-        if self.fullness < 20:
+        if self.fullness < 10:
             self.eat()
         elif dice == 1:
             self.sleep()
@@ -295,7 +299,7 @@ class Child:
             cprint('{} нет еды'.format(self.name), color='red')
 
     def sleep(self):
-        self.fullness -= 10
+        self.fullness -= 3
         cprint(f'Малыш {self.name} поспал', color='green')
 
 
@@ -313,19 +317,23 @@ home = House()
 serge = Husband(name='Сережа')
 masha = Wife(name='Маша')
 kolya = Child(name='Коля')
-murzik = Cat(name='Мурзик')
+# murzik = Cat(name='Мурзик')
 
+serge.go_in_to_house(house=home)
+masha.go_in_to_house(house=home)
+kolya.go_in_to_house(house=home)
 for day in range(365):
     cprint('================== День {} =================='.format(day), color='red')
     serge.act()
     masha.act()
     kolya.act()
-    murzik.act()
+    # murzik.act()
     cprint(serge, color='cyan')
     cprint(masha, color='cyan')
     cprint(kolya, color='cyan')
-    cprint(murzik, color='cyan')
+    # cprint(murzik, color='cyan')
 
+cprint('Итоги года: Шуб  было куплено {}, денег заработано {}'.format(masha.fur_coat, serge.total_money), color='magenta')
 
 # Усложненное задание (делать по желанию)
 #
