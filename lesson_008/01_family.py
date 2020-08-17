@@ -160,8 +160,8 @@ class Wife:
             self.clean_house()
         elif dice == 1:
             self.bay_fur_coat()
-        elif dice == 2:
-            self.clean_house()
+        # elif dice == 2:
+        #     self.clean_house()
         elif dice == 3:
             self.pet_the_cat()
         else:
@@ -257,8 +257,8 @@ class Cat:
         cprint(f'Кот {self.name} спал весь день', color='green')
 
     def eat(self):
-        self.fullness += 20
-        self.house.cat_food -= 10
+        self.fullness += 10
+        self.house.cat_food -= 5
         cprint(f'Кот {self.name} поел', color='yellow')
 
     def tears_wallpaper(self):
