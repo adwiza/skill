@@ -3,7 +3,6 @@
 from termcolor import cprint
 from random import randint
 
-
 ######################################################## Часть первая
 #
 # Создать модель жизни небольшой семьи.
@@ -52,8 +51,7 @@ class House:
         self.mud = 0
 
     def __str__(self):
-        return f'В доме еды осталось {self.food}, корма для кота {self.cat_food}, ' \
-               f'денег осталось {self.money}, грязь {self.mud}'
+        return f'В доме еды осталось {self.food}, денег осталось {self.money}, грязь {self.mud}'
 
     def add_mud(self):
         self.mud += 5
@@ -140,7 +138,7 @@ class Wife:
 
     def __str__(self):
         return f'Я {self.name}, сытость {self.fullness}, степень счастья {self.happiness}'
-        # return super().__str__()
+        #return super().__str__()
 
     def act(self):
         if self.fullness <= 0:
@@ -216,6 +214,27 @@ class Wife:
         self.fullness -= 10
         cprint(f'{self.name} убралась в доме', color='yellow')
 
+
+home = House()
+serge = Husband(name='Сережа')
+masha = Wife(name='Маша')
+
+serge.go_in_to_house(house=home)
+masha.go_in_to_house(house=home)
+
+for day in range(365):
+    cprint('================== День {} =================='.format(day), color='red')
+    serge.act()
+    masha.act()
+    home.add_mud()
+    cprint(serge, color='cyan')
+    cprint(masha, color='cyan')
+    cprint(home, color='cyan')
+
+cprint('Итоги года: Шуб  было куплено {}, денег заработано {}'.format(masha.fur_coat, serge.total_money), color='magenta')
+
+# TODO после реализации первой части - отдать на проверку учителю
+
 ######################################################## Часть вторая
 #
 # После подтверждения учителем первой части надо
@@ -285,29 +304,6 @@ class Cat:
             self.sleep()
 
 
-home = House()
-serge = Husband(name='Сережа')
-masha = Wife(name='Маша')
-cat = Cat(name='Харлей')
-
-serge.go_in_to_house(house=home)
-masha.go_in_to_house(house=home)
-cat.go_in_to_house(house=home)
-
-for day in range(365):
-    cprint('================== День {} =================='.format(day), color='red')
-    serge.act()
-    masha.act()
-    cat.act()
-    home.add_mud()
-    cprint(serge, color='cyan')
-    cprint(masha, color='cyan')
-    cprint(cat, color='green')
-    cprint(home, color='cyan')
-
-cprint('Итоги года: Шуб  было куплено {}, денег заработано {}'.format(masha.fur_coat, serge.total_money),
-       color='magenta')
-
 ######################################################## Часть вторая бис
 #
 # После реализации первой части надо в ветке мастер продолжить работу над семьей - добавить ребенка
@@ -321,20 +317,43 @@ cprint('Итоги года: Шуб  было куплено {}, денег за
 
 class Child:
 
-    def __init__(self):
-        pass
+    def __init__(self, name):
+        self.name = name
+        self.fullness = 10
+        self.happiness = 100
+        self.house = None
 
     def __str__(self):
-        return super().__str__()
+        return f'Я {self.name}, сытость {self.fullness}, степень счастья {self.happiness}'
+        # return super().__str__()
+
+    def go_in_to_house(self, house):
+        self.house = house
+        self.fullness -= 3
+        cprint(f'{self.name} родился', color='cyan')
 
     def act(self):
-        pass
+        if self.fullness <= 0:
+            cprint(f'Малыш {self.name} умер от голода...', color='red')
+            return
+
+        dice = randint(1, 6)
+        if self.fullness < 10:
+            self.eat()
+        elif dice == 1:
+            self.sleep()
 
     def eat(self):
-        pass
+        if self.house.food >= 10:
+            self.fullness += 10
+            cprint('Малыш {} поел'.format(self.name), color='yellow')
+            self.house.food -= 10
+        else:
+            cprint('{} нет еды'.format(self.name), color='red')
 
     def sleep(self):
-        pass
+        self.fullness -= 3
+        cprint(f'Малыш {self.name} поспал', color='green')
 
 
 # TODO после реализации второй части - отдать на проверку учителем две ветки
@@ -364,6 +383,8 @@ for day in range(365):
     cprint(kolya, color='cyan')
     cprint(murzik, color='cyan')
 
+cprint('Итоги года: Шуб  было куплено {}, денег заработано {}'.format(masha.fur_coat, serge.total_money), color='magenta')
+
 # Усложненное задание (делать по желанию)
 #
 # Сделать из семьи любителей котов - пусть котов будет 3, или даже 5-10.
@@ -385,3 +406,4 @@ for day in range(365):
 #       for salary in range(50, 401, 50):
 #           max_cats = life.experiment(salary)
 #           print(f'При зарплате {salary} максимально можно прокормить {max_cats} котов')
+
