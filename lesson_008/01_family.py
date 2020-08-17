@@ -352,11 +352,12 @@ serge = Husband(name='Сережа')
 masha = Wife(name='Маша')
 kolya = Child(name='Коля')
 murzik = Cat(name='Мурзик')
-
+harley = Cat(name='Харлей')
 
 serge.go_in_to_house(house=home)
 masha.go_in_to_house(house=home)
 murzik.go_in_to_house(house=home)
+harley.go_in_to_house(house=home)
 kolya.go_in_to_house(house=home)
 
 for day in range(365):
@@ -365,10 +366,12 @@ for day in range(365):
     masha.act()
     kolya.act()
     murzik.act()
+    harley.act()
     cprint(serge, color='cyan')
     cprint(masha, color='cyan')
     cprint(kolya, color='cyan')
     cprint(murzik, color='cyan')
+    cprint(harley, color='cyan')
     cprint(home, color='cyan')
 
 cprint('Итоги года: Шуб  было куплено {}, денег заработано {}'.format(masha.fur_coat, serge.total_money),
