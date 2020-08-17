@@ -51,7 +51,8 @@ class House:
         self.mud = 0
 
     def __str__(self):
-        return f'В доме еды осталось {self.food}, денег осталось {self.money}, грязь {self.mud}'
+        return f'В доме еды осталось еды {self.food}, кошачьего корма {self.cat_food}, денег осталось {self.money}, ' \
+               f'грязь {self.mud}'
 
     def add_mud(self):
         self.mud += 5
@@ -126,6 +127,7 @@ class Husband:
         self.fullness -= 10
         cprint(f'{self.name} погладил кота', color='blue')
 
+
 class Wife:
 
     def __init__(self, name):
@@ -148,11 +150,11 @@ class Wife:
             return
 
         dice = randint(1, 6)
-        if self.fullness < 20:
+        if self.fullness <= 20:
             self.eat()
-        elif self.house.food < 10:
+        elif self.house.food <= 10:
             self.shopping()
-        elif self.house.cat_food < 10:
+        elif self.house.cat_food <= 10:
             self.cat_food_shopping()
         elif self.house.mud > 100:
             self.clean_house()
@@ -215,26 +217,6 @@ class Wife:
         cprint(f'{self.name} убралась в доме', color='yellow')
 
 
-home = House()
-serge = Husband(name='Сережа')
-masha = Wife(name='Маша')
-
-serge.go_in_to_house(house=home)
-masha.go_in_to_house(house=home)
-
-for day in range(365):
-    cprint('================== День {} =================='.format(day), color='red')
-    serge.act()
-    masha.act()
-    home.add_mud()
-    cprint(serge, color='cyan')
-    cprint(masha, color='cyan')
-    cprint(home, color='cyan')
-
-cprint('Итоги года: Шуб  было куплено {}, денег заработано {}'.format(masha.fur_coat, serge.total_money), color='magenta')
-
-# TODO после реализации первой части - отдать на проверку учителю
-
 ######################################################## Часть вторая
 #
 # После подтверждения учителем первой части надо
@@ -291,7 +273,7 @@ class Cat:
 
     def act(self):
         if self.fullness <= 0:
-            cprint(f'{self.name} умер...', color='red')
+            cprint(f'Кот {self.name} умер...', color='red')
             return
         dice_cat = randint(1, 6)
         if self.fullness < 20:
@@ -356,7 +338,6 @@ class Child:
         cprint(f'Малыш {self.name} поспал', color='green')
 
 
-# TODO после реализации второй части - отдать на проверку учителем две ветки
 
 
 ######################################################## Часть третья
@@ -372,6 +353,12 @@ masha = Wife(name='Маша')
 kolya = Child(name='Коля')
 murzik = Cat(name='Мурзик')
 
+
+serge.go_in_to_house(house=home)
+masha.go_in_to_house(house=home)
+murzik.go_in_to_house(house=home)
+kolya.go_in_to_house(house=home)
+
 for day in range(365):
     cprint('================== День {} =================='.format(day), color='red')
     serge.act()
@@ -382,8 +369,10 @@ for day in range(365):
     cprint(masha, color='cyan')
     cprint(kolya, color='cyan')
     cprint(murzik, color='cyan')
+    cprint(home, color='cyan')
 
-cprint('Итоги года: Шуб  было куплено {}, денег заработано {}'.format(masha.fur_coat, serge.total_money), color='magenta')
+cprint('Итоги года: Шуб  было куплено {}, денег заработано {}'.format(masha.fur_coat, serge.total_money),
+       color='magenta')
 
 # Усложненное задание (делать по желанию)
 #
