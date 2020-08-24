@@ -1,12 +1,20 @@
 import zipfile
+
 from pprint import pprint
 from random import randint
 
-# zip_file_name = 'voyna-i-mir.txt.zip'
-# zfile = zipfile.ZipFile(zip_file_name, 'r')
-# for file_name in zfile.namelist():
-#     zfile.extract(file_name)
 
+class Chatterer:
+
+    def __init__(self, zip_file_name):
+        self.zip_file_name = zip_file_name
+
+    def unzip(self):
+        zfile = zipfile.ZipFile(self.zip_file_name, 'r')
+        for file_name in zfile.namelist():
+            zfile.extract(file_name)
+    def collect(self):
+        pass
 
 file_name = 'voyna-i-mir.txt'
 
