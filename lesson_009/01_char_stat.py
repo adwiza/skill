@@ -22,7 +22,7 @@
 # Требования к коду: он должен быть готовым к расширению функциональности. Делать сразу на классах.
 
 import zipfile
-from pprint import pprint
+from operator import itemgetter
 
 
 class CharCollector:
@@ -61,7 +61,7 @@ class CharCollector:
 collector = CharCollector(file_name='voyna-i-mir.txt.zip')
 collector.collect()
 all_stats = collector.stat[' ']
-sorted_items = sorted(all_stats.items(), key=lambda kv: kv[1], reverse=True)
+sorted_items = sorted(all_stats.items(), key=itemgetter(1), reverse=True)
 total = 0
 print('+---------+----------+')
 print('|  буква  | частота  |')
