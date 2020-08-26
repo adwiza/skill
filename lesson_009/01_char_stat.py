@@ -57,22 +57,26 @@ class CharCollector:
                     self.stat[self.sequence] = {char: 1}
         return self.stat
 
+    def output_with_sort(self):
+        all_stats = collector.stat[' ']
+        sorted_items = sorted(all_stats.items(), key=itemgetter(1), reverse=True)
+        total = 0
+        print('+---------+----------+')
+        print('|  буква  | частота  |')
+        print('+---------+----------+')
+        for char, stats in sorted_items:
+            print(f'| {char:^8}|{stats:^10}|')
+            print('----------+-----------')
+            total += stats
+
+        print(f'|  Итого  | {total}  |')
+        print('+---------+----------+')
+
 
 collector = CharCollector(file_name='voyna-i-mir.txt.zip')
 collector.collect()
-all_stats = collector.stat[' ']
-sorted_items = sorted(all_stats.items(), key=itemgetter(1), reverse=True)
-total = 0
-print('+---------+----------+')
-print('|  буква  | частота  |')
-print('+---------+----------+')
-for char, stats in sorted_items:
-    print(f'| {char:^8}|{stats:^10}|')
-    print('----------+-----------')
-    total += stats
+collector.output_with_sort()
 
-print(f'|  Итого  | {total}  |')
-print('+---------+----------+')
 # После выполнения первого этапа нужно сделать упорядочивание статистики
 #  - по частоте по возрастанию
 #  - по алфавиту по возрастанию
