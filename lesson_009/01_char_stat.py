@@ -21,7 +21,6 @@
 # Упорядочивание по частоте - по убыванию. Ширину таблицы подберите по своему вкусу
 # Требования к коду: он должен быть готовым к расширению функциональности. Делать сразу на классах.
 
-# TODO здесь ваш код
 import zipfile
 from pprint import pprint
 
@@ -62,7 +61,7 @@ class CharCollector:
 collector = CharCollector(file_name='voyna-i-mir.txt.zip')
 collector.collect()
 all_stats = collector.stat[' ']
-sorted_items = sorted(all_stats.items())
+sorted_items = sorted(all_stats.items(), key=lambda kv: kv[1], reverse=True)
 total = 0
 print('+---------+----------+')
 print('|  буква  | частота  |')
