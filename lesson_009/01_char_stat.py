@@ -23,10 +23,12 @@
 
 import zipfile
 from operator import itemgetter
-
+from collections import OrderedDict
 
 class CharCollector:
-
+    """ Базовый алгоритм решающий задачу распаковки
+    и загрузки файла, а так же подсчёта букв и сортировки
+    """
     def __init__(self, file_name):
         self.file_name = file_name
         self.stat = {}
@@ -57,9 +59,27 @@ class CharCollector:
                     self.stat[self.sequence] = {char: 1}
         return self.stat
 
-    def output_with_sort(self):
+    def sort1(self):
         all_stats = collector.stat[' ']
         sorted_items = sorted(all_stats.items(), key=itemgetter(1), reverse=True)
+        return sorted_items
+
+    def sort2(self):
+        all_stats = collector.stat[' ']
+        sorted_items = sorted(all_stats.items(), key=itemgetter(1))
+        return sorted_items
+
+    def sort3(self):
+        all_stats = collector.stat[' ']
+        sorted_items = sorted(all_stats.items(), key=itemgetter(1, 0))
+        return sorted_items
+
+    def sort4(self):
+            all_stats = collector.stat[' ']
+            sorted_items = sorted(all_stats.items(), key=itemgetter(1, 0), reverse=True)
+            return sorted_items
+
+    def output_with_sort(self, sorted_items):
         total = 0
         print('+---------+----------+')
         print('|  буква  | частота  |')
@@ -75,7 +95,14 @@ class CharCollector:
 
 collector = CharCollector(file_name='voyna-i-mir.txt.zip')
 collector.collect()
-collector.output_with_sort()
+sorted_items = collector.sort1()
+collector.output_with_sort(sorted_items)
+sorted_items = collector.sort2()
+collector.output_with_sort(sorted_items)
+sorted_items = collector.sort3()
+collector.output_with_sort(sorted_items)
+sorted_items = collector.sort4()
+collector.output_with_sort(sorted_items)
 
 # После выполнения первого этапа нужно сделать упорядочивание статистики
 #  - по частоте по возрастанию
