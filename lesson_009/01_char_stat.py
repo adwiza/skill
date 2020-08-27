@@ -59,7 +59,7 @@ class CharCollector:
 
     def output_with_sort(self):
         all_stats = collector.stat[' ']
-        sorted_items = sorted(all_stats.items(), key=itemgetter(1), reverse=True)
+        sorted_items = sorted(all_stats.items(), key=itemgetter(1,0), reverse=True)
         total = 0
         print('+---------+----------+')
         print('|  буква  | частота  |')
