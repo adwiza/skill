@@ -35,7 +35,10 @@ with open('registrations.txt', 'r') as f:
         try:
             line = line.split(' ')
             if len(line) == 3 or str(line).isalpha():
-                data.append(line)
+                dog = '@'
+                dot = '.'
+                if dog in line[1] and dot in line[1] and 10 < int(line[2]) < 99:
+                    data.append(line)
             else:
                 err_data.append(line)
 
@@ -44,5 +47,10 @@ with open('registrations.txt', 'r') as f:
                 print(f'Не хватает операндов {exc} в строке {line}')
 
 
-print(data, len(data))
-print('error_data', err_data, len(err_data))
+for i in data:
+    account = data.pop()
+    with open('valid_registration.txt', 'a') as f:
+        registered_user = ' '.join(account) + '\n'
+        f.write(registered_user)
+
+#print('error_data', err_data, len(err_data))
