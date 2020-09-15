@@ -27,24 +27,34 @@
 import re
 from time import sleep
 
+
+class NotNameError(Exception):
+    pass
+
+
+class NotEmailError(Exception):
+    pass
+
+
 data = []
 err_data = []
 with open('registrations.txt', 'r') as f:
     for line in f:
         line = line[:-1]
-        try:
-            line = line.split(' ')
-            if len(line) == 3 or str(line).isalpha():
-                dog = '@'
-                dot = '.'
-                if dog in line[1] and dot in line[1] and 10 < int(line[2]) < 99:
-                    data.append(line)
-            else:
-                err_data.append(line)
-
-        except ValueError as exc:
-            if 'unpack' in exc.args[0]:
-                print(f'Не хватает операндов {exc} в строке {line}')
+        line = line.split(' ')
+        if len(line) == 3 or str(line).isalpha():
+            dog = '@'
+            dot = '.'
+            if dog in line[1] and dot in line[1] and 10 < int(line[2]) < 99:
+                data.append(line)
+        if len(line) != 3:
+            err_data.append(line)
+        elif not str(line[0]).isalpha():
+            err_data.append(line)
+        elif dog not in line[1] and dot not in line[1]:
+            err_data.append(line)
+        elif not 10 < int(line[2]) < 99:
+            err_data.append(line)
 
 
 for i in data:
@@ -53,4 +63,8 @@ for i in data:
         registered_user = ' '.join(account) + '\n'
         f.write(registered_user)
 
-#print('error_data', err_data, len(err_data))
+for e in err_data:
+    invalid_user = err_data.pop()
+    with open('invalid_registration.txt', 'a') as f:
+        unregistered_user = ' '.join(invalid_user) + '\n'
+        f.write(unregistered_user)
