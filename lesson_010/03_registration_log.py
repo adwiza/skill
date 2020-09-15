@@ -22,12 +22,6 @@
 # - поле возраст НЕ является числом от 10 до 99: ValueError
 # Вызов метода обернуть в try-except.
 
-# TODO здесь ваш код
-
-import re
-from time import sleep
-
-
 class NotNameError(Exception):
     pass
 
@@ -38,24 +32,29 @@ class NotEmailError(Exception):
 
 data = []
 err_data = []
+
+
+def registration_validate():
+    if len(line) == 3 or str(line).isalpha():
+        dog = '@'
+        dot = '.'
+        if dog in line[1] and dot in line[1] and 10 < int(line[2]) < 99:
+            data.append(line)
+    if len(line) != 3:
+        err_data.append(line)
+    elif not str(line[0]).isalpha():
+        err_data.append(line)
+    elif dog not in line[1] and dot not in line[1]:
+        err_data.append(line)
+    elif not 10 < int(line[2]) < 99:
+        err_data.append(line)
+
+
 with open('registrations.txt', 'r') as f:
     for line in f:
         line = line[:-1]
         line = line.split(' ')
-        if len(line) == 3 or str(line).isalpha():
-            dog = '@'
-            dot = '.'
-            if dog in line[1] and dot in line[1] and 10 < int(line[2]) < 99:
-                data.append(line)
-        if len(line) != 3:
-            err_data.append(line)
-        elif not str(line[0]).isalpha():
-            err_data.append(line)
-        elif dog not in line[1] and dot not in line[1]:
-            err_data.append(line)
-        elif not 10 < int(line[2]) < 99:
-            err_data.append(line)
-
+        registration_validate()
 
 for i in data:
     account = data.pop()
