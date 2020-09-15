@@ -41,13 +41,13 @@ def registration_validate():
         if dog in line[1] and dot in line[1] and 10 < int(line[2]) < 99:
             data.append(line)
     if len(line) != 3:
-        err_data.append(line)
+        err_data.append(line + ['ValueError'])
     elif not str(line[0]).isalpha():
-        err_data.append(line)
+        err_data.append(line + ['NotNameError'])
     elif dog not in line[1] and dot not in line[1]:
-        err_data.append(line)
+        err_data.append(line + ['NotEmailError'])
     elif not 10 < int(line[2]) < 99:
-        err_data.append(line)
+        err_data.append(line + ['ValueError'])
 
 
 with open('registrations.txt', 'r') as f:
