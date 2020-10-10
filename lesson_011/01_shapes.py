@@ -20,14 +20,11 @@ def get_polygon(n):
         if n == 3:
             return triangle(*args, **kwargs)
         elif n == 4:
-            result = square(*args, **kwargs)
-            return result
+            return square(*args, **kwargs)
         elif n == 5:
-            result = pentagon(*args, **kwargs)
-            return result
+            return pentagon(*args, **kwargs)
         elif n == 6:
-            result = hexagon(*args, **kwargs)
-            return result
+            return hexagon(*args, **kwargs)
 
     return select_figure
 
