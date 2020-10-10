@@ -50,7 +50,7 @@ def square(point, angle=0, length=150):
     """ Эта функция рисует
     квадрат.
     """
-
+    print('Рисуем квадрат')
     v1 = sd.get_vector(start_point=point, angle=angle, length=length, width=3)
     v1.draw(color=color)
 
@@ -68,7 +68,7 @@ def pentagon(point, angle=0, length=150):
     """ Эта функция рисует
         пятиугольник.
         """
-
+    print('Рисуем пятиугольник')
     v1 = sd.get_vector(start_point=point, angle=angle, length=length, width=3)
     v1.draw(color=color)
 
@@ -89,7 +89,7 @@ def hexagon(point, angle=0, length=150):
     """ Эта функция рисует
     шестиугольник.
     """
-
+    print('Рисуем шестиугольник')
     v1 = sd.get_vector(start_point=point, angle=angle, length=length, width=3)
     v1.draw(color=color)
 
