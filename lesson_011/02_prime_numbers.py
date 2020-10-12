@@ -7,13 +7,14 @@ import math
 
 def get_prime_numbers(n):
     prime_numbers = []
-    for number in range(2, n+1):
+    for number in range(2, n + 1):
         for prime in prime_numbers:
             if number % prime == 0:
                 break
         else:
             prime_numbers.append(number)
     return prime_numbers
+
 
 # Часть 1
 # На основе алгоритма get_prime_numbers создать класс итерируемых обьектов,
@@ -51,11 +52,10 @@ class PrimeNumbers:
             raise StopIteration()
 
 
-# prime_number_iterator = PrimeNumbers(n=10000)
-# for number in prime_number_iterator:
-#     print(number)
+prime_number_iterator = PrimeNumbers(n=10000)
+for number in prime_number_iterator:
+    print(number)
 
-# TODO после подтверждения части 1 преподователем, можно делать
 # Часть 2
 # Теперь нужно создать генератор, который выдает последовательность простых чисел до n
 # Распечатать все простые числа до 10000 в столбик
@@ -70,20 +70,29 @@ def prime_numbers_generator(n):
     return sorted(sieve)
 
 
-# for number in prime_numbers_generator(n=10000):
-#     print(number)
+for number in prime_numbers_generator(n=10000):
+    print(number)
 
 digits = []
-simple_num = prime_numbers_generator(1000)
+set_of_items = set()
+simple_num = prime_numbers_generator(100000)
 for s in simple_num:
-    if len(str(s)) >= 3:
+    if len(str(s)) == 3:
         digits.append(str(s))
         filtered = filter(lambda lucky: lucky[:1] == lucky[-1:], digits)
-        print(list(filtered))
+        set_of_items.update(filtered)
+    elif len(str(s)) == 5:
+        digits.append(str(s))
+        first_digit = str(s)[:1]
+        second_digit = str(s)[1:2]
+        third_digit = str(s)[-1:]
+        four_digit = str(s)[-2:-1]
+        left = int(first_digit) + int(second_digit)
+        right = int(third_digit) + int(four_digit)
+        if left - right == 0:
+            set_of_items.add(str(s))
 
-# print(filter(lambda x: x[:1] == x[:-1], simple_num))
-
-
+print(sorted(set_of_items))
 
 # Часть 3
 # Написать несколько функций-фильтров, которые выдает True, если число:
