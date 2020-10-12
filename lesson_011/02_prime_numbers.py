@@ -81,6 +81,16 @@ for s in simple_num:
         digits.append(str(s))
         filtered = filter(lambda lucky: lucky[:1] == lucky[-1:], digits)
         set_of_items.update(filtered)
+    elif len(str(s)) == 4:
+        digits.append(str(s))
+        first_digit = str(s)[:1]
+        second_digit = str(s)[1:2]
+        third_digit = str(s)[-1:]
+        four_digit = str(s)[-2:-1]
+        left = int(first_digit) + int(second_digit)
+        right = int(third_digit) + int(four_digit)
+        if left - right == 0:
+            set_of_items.add(str(s))
     elif len(str(s)) == 5:
         digits.append(str(s))
         first_digit = str(s)[:1]
