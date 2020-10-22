@@ -40,8 +40,8 @@ class Fisher(Process):
 
 
 if __name__ == '__main__':
-    vasya = Fisher(name='Вася', worms=10)
-    kolya = Fisher(name='Коля', worms=10)
+    vasya = Fisher(name='Вася', worms=100)
+    kolya = Fisher(name='Коля', worms=100)
 
     print('*' * 20, 'Они пошли на рыбалку')
     vasya.start()
