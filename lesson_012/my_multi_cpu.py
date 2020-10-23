@@ -13,7 +13,7 @@ def fishing(name, worms):
     catch = defaultdict(lambda: 0)
     for worm in range(worms):
         print(f'{name} Червяк № {worm} - Заросил, ждём...', flush=True)
-        _ = worm ** (random.randint(50, 70) * 10000)
+        _ = 3 ** (random.randint(50, 70) * 10000)
         fish = random.choice(FISH)
         if fish is None:
             print(f'{name}: Тьфу, сожрали червяка...', flush=True)
@@ -22,11 +22,18 @@ def fishing(name, worms):
             catch[fish] += 1
     print(f'Итого рыбак {name} поймал:')
 
+    fish_list = []
+    count_list = []
     for fish, count in catch.items():
         catch_table = PrettyTable()
         catch_table.field_names = ['Рыба', 'Количество']
-        catch_table.add_row([fish, count])
-        print(catch_table)
+        fish_list.append(fish)
+        count_list.append(count)
+        fish_ = "\n".join(fish_list)
+        count_ = "\n".join(str(count_list[0:-1][:- 1]))
+        catch_table.add_row([fish_, count_])
+        print(f'        {fish}  -  {count}')
+        # print(catch_table)
 
 
 if __name__ == '__main__':
