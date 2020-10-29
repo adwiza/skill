@@ -36,7 +36,7 @@ class PageSizer(multiprocessing.Process):
             extractor = LinkExtractor(base_url=self.url)
             extractor.feed(html_data)
             collector = multiprocessing.Queue()
-            sizers = [PageSizer(url=link, collector=collector, go_ahead=False) for link in extractor.links]
+            sizers = [PageSizer(url=link, go_ahead=False, collector=collector) for link in extractor.links]
             for sizer in sizers:
                 sizer.start()
             for sizer in sizers:
@@ -68,7 +68,7 @@ def main():
 
     while not collector.empty():
         data = collector.get()
-        print(f"For url {data['url']} need download {data['url'] // 1024} Kbytes ({data['url']} bytes)")
+        print(f"For url {data['url']} need download {data['total_bytes'] // 1024} Kbytes ({data['total_bytes']} bytes)")
 
 
 if __name__ == '__main__':
