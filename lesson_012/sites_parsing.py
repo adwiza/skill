@@ -1,3 +1,5 @@
+import threading
+
 import requests
 
 from extractor import LinkExtractor
@@ -5,8 +7,8 @@ from utils import time_track
 
 sites = [
     'https://fl.ru',
-    #'https://www.wildberries.ru',
-    #'https://pass.mos.ru',
+    # 'https://www.wildberries.ru',
+    # 'https://pass.mos.ru',
     'https://weblancer.ru',
     'https://freelancejob.ru',
     'https://kwork.ru',
@@ -15,10 +17,12 @@ sites = [
 ]
 
 
-class PageSizer:
+class PageSizer(threading.Thread):
 
-    def __init__(self, url):
+    def __init__(self, url, go_ahead=True,  *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.url = url
+        self.go_ahead = go_ahead
         self.total_bytes = 0
 
     def run(self):
@@ -27,12 +31,16 @@ class PageSizer:
         if html_data is None:
             return
         self.total_bytes += len(html_data)
-        extractor = LinkExtractor(base_url=self.url)
-        extractor.feed(html_data)
-        for link in extractor.links:
-            extra_data = self._get_html(url=link)
-            if extra_data:
-                self.total_bytes += len(extra_data)
+        if self.go_ahead:
+            extractor = LinkExtractor(base_url=self.url)
+            extractor.feed(html_data)
+            sizers = [PageSizer(url=link, go_ahead=False) for link in extractor.links]
+            for sizer in sizers:
+                sizer.start()
+            for sizer in sizers:
+                sizer.join()
+            for sizer in sizers:
+                self.total_bytes += sizer.total_bytes
 
     def _get_html(self, url):
         try:
@@ -49,10 +57,11 @@ def main():
     sizers = [PageSizer(url=url) for url in sites]
 
     for sizer in sizers:
-        sizer.run()
-
+        sizer.start()
     for sizer in sizers:
-        print(f'For url {sizer.url} need download {sizer.total_bytes//1024} Kbytes ({sizer.total_bytes} bytes)')
+        sizer.join()
+    for sizer in sizers:
+        print(f'For url {sizer.url} need download {sizer.total_bytes // 1024} Kbytes ({sizer.total_bytes} bytes)')
 
 
 if __name__ == '__main__':
