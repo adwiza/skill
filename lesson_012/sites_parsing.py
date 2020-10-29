@@ -1,4 +1,4 @@
-import threading
+import multiprocessing
 
 import requests
 
@@ -17,13 +17,14 @@ sites = [
 ]
 
 
-class PageSizer(threading.Thread):
+class PageSizer(multiprocessing.Process):
 
-    def __init__(self, url, go_ahead=True,  *args, **kwargs):
+    def __init__(self, url, collector, go_ahead=True, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.url = url
         self.go_ahead = go_ahead
         self.total_bytes = 0
+        self.collector = collector
 
     def run(self):
         self.total_bytes = 0
@@ -34,13 +35,16 @@ class PageSizer(threading.Thread):
         if self.go_ahead:
             extractor = LinkExtractor(base_url=self.url)
             extractor.feed(html_data)
-            sizers = [PageSizer(url=link, go_ahead=False) for link in extractor.links]
+            collector = multiprocessing.Queue()
+            sizers = [PageSizer(url=link, collector=collector, go_ahead=False) for link in extractor.links]
             for sizer in sizers:
                 sizer.start()
             for sizer in sizers:
                 sizer.join()
-            for sizer in sizers:
-                self.total_bytes += sizer.total_bytes
+            while not collector.empty():
+                data = collector.get()
+                self.total_bytes += data['total_bytes']
+        self.collector.put = (dict(url=self.url, total_bytes=self.total_bytes))
 
     def _get_html(self, url):
         try:
@@ -54,14 +58,17 @@ class PageSizer(threading.Thread):
 
 @time_track
 def main():
-    sizers = [PageSizer(url=url) for url in sites]
+    collector = multiprocessing.Queue()
+    sizers = [PageSizer(url=url, collector=collector) for url in sites]
 
     for sizer in sizers:
         sizer.start()
     for sizer in sizers:
         sizer.join()
-    for sizer in sizers:
-        print(f'For url {sizer.url} need download {sizer.total_bytes // 1024} Kbytes ({sizer.total_bytes} bytes)')
+
+    while not collector.empty():
+        data = collector.get()
+        print(f"For url {data['url']} need download {data['url'] // 1024} Kbytes ({data['url']} bytes)")
 
 
 if __name__ == '__main__':
