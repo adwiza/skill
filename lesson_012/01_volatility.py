@@ -81,6 +81,9 @@ from pprint import pprint
 import numpy as np
 import pandas as pd
 
+work_dir = 'trades'
+list_of_files = os.listdir(work_dir)
+lines = []
 
 class VolatilityCalculator:
 
@@ -106,8 +109,8 @@ class VolatilityCalculator:
             print(f'Средняя цена: {average_price} Волатильность:  {volatility:.2f}%')
 
 
-payload = VolatilityCalculator(file_name='trades/TICKER_AFH9.csv')
+payload = VolatilityCalculator(file_name=list_of_files[0])
 
 if __name__ == '__main__':
-    payload.run()
+   payload.run()
 
