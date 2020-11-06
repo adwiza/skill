@@ -109,8 +109,8 @@ class VolatilityCalculator:
                         max_price.round(2), 'volatility': volatility.round(2)}
         print(all_data)
         # print(f'Тикер {str(self.file_name[7:11])}')
-        # print(f'Минималная цена {min_price}')
-        # print(f'Минималная цена {max_price}')
+        # print(f'Минимальная цена {min_price}')
+        # print(f'Максимальная цена {max_price}')
         # print(f'Средняя цена: {average_price:.2f}')
         # print(f'Волатильность:  {volatility:.2f}%')
 
