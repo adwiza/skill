@@ -85,6 +85,7 @@ work_dir = 'trades'
 list_of_files = os.listdir(work_dir)
 lines = []
 
+
 class VolatilityCalculator:
 
     def __init__(self, file_name, *args, **kwargs):
@@ -97,20 +98,26 @@ class VolatilityCalculator:
             zfile.extract(file_name)
 
     def run(self):
-        with open(self.file_name) as f:
+        with open(os.path.join(work_dir, self.file_name)) as f:
             data_frame = pd.read_csv(f, index_col=None, usecols=['PRICE'])
             # FINDING MAX AND MIN
             max_price = data_frame['PRICE'].max()
             min_price = data_frame['PRICE'].min()
             average_price = (max_price + min_price) / 2
             volatility = ((max_price - min_price) / average_price) * 100
-            print(f'Минималная цена {min_price}')
-            print(f'Минималная цена {max_price}')
-            print(f'Средняя цена: {average_price} Волатильность:  {volatility:.2f}%')
+            all_data = {'Тикер': str(self.file_name[7:11]), 'min_price': min_price.round(2), 'max_price':
+                        max_price.round(2), 'volatility': volatility.round(2)}
+        print(all_data)
+        # print(f'Тикер {str(self.file_name[7:11])}')
+        # print(f'Минималная цена {min_price}')
+        # print(f'Минималная цена {max_price}')
+        # print(f'Средняя цена: {average_price:.2f}')
+        # print(f'Волатильность:  {volatility:.2f}%')
 
-
-payload = VolatilityCalculator(file_name=list_of_files[0])
 
 if __name__ == '__main__':
-   payload.run()
 
+    payloads = [VolatilityCalculator(file_name=file) for file in list_of_files]
+
+    for payload in payloads:
+        payload.run()
