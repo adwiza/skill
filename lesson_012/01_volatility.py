@@ -74,12 +74,17 @@
 #         <обработка данных>
 
 # TODO написать код в однопоточном/однопроцессорном стиле
+import operator
 import zipfile
 import csv
 import os.path
+from multiprocessing import Process
 from pprint import pprint
+from threading import Thread
+
 import numpy as np
 import pandas as pd
+from operator import itemgetter, attrgetter, methodcaller
 
 work_dir = 'trades'
 list_of_files = os.listdir(work_dir)
@@ -91,6 +96,10 @@ class VolatilityCalculator:
     def __init__(self, file_name, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.file_name = file_name
+        self.zero_volatility = []
+        self.max_volatility = []
+        self.min_volatility = []
+        self.all_elems = []
 
     def unzip(self):
         zfile = zipfile.ZipFile(self.file_name, 'r')
@@ -98,6 +107,7 @@ class VolatilityCalculator:
             zfile.extract(file_name)
 
     def run(self):
+        saved_data = []
         with open(os.path.join(work_dir, self.file_name)) as f:
             data_frame = pd.read_csv(f, index_col=None, usecols=['PRICE'])
             # FINDING MAX AND MIN
@@ -105,14 +115,35 @@ class VolatilityCalculator:
             min_price = data_frame['PRICE'].min()
             average_price = (max_price + min_price) / 2
             volatility = ((max_price - min_price) / average_price) * 100
-            all_data = {'Тикер': str(self.file_name[7:11]), 'min_price': min_price.round(2), 'max_price':
-                        max_price.round(2), 'volatility': volatility.round(2)}
-        print(all_data)
-        # print(f'Тикер {str(self.file_name[7:11])}')
-        # print(f'Минимальная цена {min_price}')
-        # print(f'Максимальная цена {max_price}')
-        # print(f'Средняя цена: {average_price:.2f}')
-        # print(f'Волатильность:  {volatility:.2f}%')
+            all_data = [('Тикер ' + str(self.file_name[7:11]), volatility)]
+            saved_data.append(all_data)
+            f.close()
+
+        for row in saved_data:
+            for elem in row:
+                if elem[1] == 0:
+                    self.zero_volatility.append(elem[0])
+                else:
+                    self.all_elems.append(elem)
+
+        def get_key(item):
+            return item[1]
+
+        self.all_elems.sort(key=get_key, reverse=False)
+
+        for row in self.all_elems[-3:]:
+            for elem in row:
+                self.max_volatility.append(elem)
+
+        self.all_elems.sort(key=get_key, reverse=True)
+
+        for row in self.all_elems[-3:]:
+            for elem in row:
+                self.min_volatility.append(elem)
+
+        print('Минимальная волатильность:\n', self.min_volatility)
+        print('Максимальная волатильность:\n', self.max_volatility)
+        print('Нулевая волатильность:\n', self.zero_volatility)
 
 
 if __name__ == '__main__':
@@ -121,3 +152,9 @@ if __name__ == '__main__':
 
     for payload in payloads:
         payload.run()
+    # for payload in payloads:
+    #     payload.join()
+
+    # print('Минимальная волатильность:\n', payload.min_volatility)
+    # print('Максимальная волатильность:\n', payload.max_volatility)
+    # print('Нулевая волатильность:\n', payload.zero_volatility)
