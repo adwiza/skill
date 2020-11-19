@@ -66,6 +66,6 @@ for row in all_elems[-3:]:
         min_volatility.append(elem)
 
 
-print('Минимальная волатильность:\n', min_volatility)
+print('Минимальная волатильность:\n', ''.join(str(min_volatility)))
 print('Максимальная волатильность:\n', max_volatility)
 print('Нулевая волатильность:\n', zero_volatility)

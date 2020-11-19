@@ -78,6 +78,7 @@ import operator
 import zipfile
 import csv
 import os.path
+from collections import defaultdict
 from multiprocessing import Process
 from pprint import pprint
 from threading import Thread
@@ -85,6 +86,8 @@ from threading import Thread
 import numpy as np
 import pandas as pd
 from operator import itemgetter, attrgetter, methodcaller
+
+from IPython.core.display import display
 
 work_dir = 'trades'
 list_of_files = os.listdir(work_dir)
@@ -96,10 +99,7 @@ class VolatilityCalculator:
     def __init__(self, file_name, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.file_name = file_name
-        self.zero_volatility = []
-        self.max_volatility = []
-        self.min_volatility = []
-        self.all_elems = []
+        self.result = defaultdict(int)
 
     def unzip(self):
         zfile = zipfile.ZipFile(self.file_name, 'r')
@@ -107,7 +107,10 @@ class VolatilityCalculator:
             zfile.extract(file_name)
 
     def run(self):
-        saved_data = []
+        self.result = defaultdict(int)
+        self.zv = defaultdict(int)
+        self.result_data_max = 0
+        self.result_data_min = 0
         with open(os.path.join(work_dir, self.file_name)) as f:
             data_frame = pd.read_csv(f, index_col=None, usecols=['PRICE'])
             # FINDING MAX AND MIN
@@ -115,46 +118,32 @@ class VolatilityCalculator:
             min_price = data_frame['PRICE'].min()
             average_price = (max_price + min_price) / 2
             volatility = ((max_price - min_price) / average_price) * 100
-            all_data = [('Тикер ' + str(self.file_name[7:11]), volatility)]
-            saved_data.append(all_data)
-            f.close()
+            if volatility == 0:
+                self.zv = [str(self.file_name[7:11]), volatility]
+                # print('Нулевая волатильность', self.zv)
+            else:
+                data_file = 'data.csv'
+                result_data_max = []
+                result_data_min = []
+                all_data = pd.DataFrame([(str(self.file_name[7:11]), volatility)])
+                if os.path.exists(data_file):
+                    with open(data_file) as fff:
+                        saved_data = pd.read_csv(fff, names=['ticker', 'volatility'])
+                        self.result_data_max += saved_data['volatility'].max()
+                        self.result_data_min += saved_data['volatility'].min()
+                        my_dict_max = dict(ticker=self.file_name[7:11], vol=self.result_data_max)
+                        my_dict_min = dict(ticker=self.file_name[7:11], vol=self.result_data_min)
+                # result_data = [saved_data['ticker'], saved_data['volatility'].min()]
+                print(my_dict_max)
+                print(my_dict_min)
+            # print(self.result_data_min)
 
-        for row in saved_data:
-            for elem in row:
-                if elem[1] == 0:
-                    self.zero_volatility.append(elem[0])
-                else:
-                    self.all_elems.append(elem)
 
-        def get_key(item):
-            return item[1]
-
-        self.all_elems.sort(key=get_key, reverse=False)
-
-        for row in self.all_elems[-3:]:
-            for elem in row:
-                self.max_volatility.append(elem)
-
-        self.all_elems.sort(key=get_key, reverse=True)
-
-        for row in self.all_elems[-3:]:
-            for elem in row:
-                self.min_volatility.append(elem)
-
-        print('Минимальная волатильность:\n', self.min_volatility)
-        print('Максимальная волатильность:\n', self.max_volatility)
-        print('Нулевая волатильность:\n', self.zero_volatility)
+def main():
+    payloads = [VolatilityCalculator(file_name=file) for file in list_of_files]
+    for payload in payloads:
+        payload.run()
 
 
 if __name__ == '__main__':
-
-    payloads = [VolatilityCalculator(file_name=file) for file in list_of_files]
-
-    for payload in payloads:
-        payload.run()
-    # for payload in payloads:
-    #     payload.join()
-
-    # print('Минимальная волатильность:\n', payload.min_volatility)
-    # print('Максимальная волатильность:\n', payload.max_volatility)
-    # print('Нулевая волатильность:\n', payload.zero_volatility)
+    main()
