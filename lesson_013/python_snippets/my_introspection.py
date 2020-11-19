@@ -1,6 +1,6 @@
 import inspect
-
-import requests
+import sys
+# import requests
 from pprint import pprint
 
 some_string = 'i am a string'
@@ -98,7 +98,7 @@ some_function_module = inspect.getmodule(some_functions)
 # print(type(some_function_module), some_function_module)
 
 signature = inspect.signature(some_functions)
-get_signature = inspect.signature(requests.get)
+# get_signature = inspect.signature(requests.get)
 # print(type(signature), signature)
 # pprint(dir(signature))
 # print(type(signature.parameters), signature.parameters)
@@ -106,3 +106,17 @@ get_signature = inspect.signature(requests.get)
 # for param_name, param in get_signature.parameters.items():
 #     print(param, param.name, param.default)
 
+# pprint(dir(sys))
+
+# print(sys.executable)
+#
+# print(sys.platform)
+# print(sys.version)
+# print(sys.path)
+# print(sys.modules)
+
+# print(type(sys.modules), sys.modules)
+# for k, v in sys.modules.items():
+#     print(k, type(v), v)
+print(__builtins__)
+pprint(__builtins__)
