@@ -4,7 +4,6 @@ import random
 from _token import token
 import vk_api
 from vk_api import bot_longpoll
-import string
 
 group_id = 200472146
 
@@ -22,15 +21,16 @@ class Bot:
     def run(self):
         for event in self.long_poller.listen():
             try:
-                print('Получено событие')
+                # print('Получено событие')
                 self.on_event(event)
             except Exception as err:
                 print(err)
 
     def on_event(self, event):
         if event.type == vk_api.bot_longpoll.VkBotEventType.MESSAGE_NEW:
+            event.object.text = str(event.object.text)
             out_msg = f'Ты сказал: \"{event.object.text.upper()}\", я тебя понял!!!'
-            print(out_msg)
+            # print(out_msg)
             self.api.messages.send(
                 message=out_msg,
                 random_id=random.randint(0, 2 ** 20),
