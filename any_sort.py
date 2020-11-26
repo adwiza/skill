@@ -15,13 +15,14 @@ def quick_sort(slist):
     pivot = slist[0]
     less_then = []
     more_then = []
-    equal = []
+    # equal = []
     for elem in slist:
         if elem > pivot:
             more_then.append(elem)
         elif elem < pivot:
             less_then.append(elem)
-        else:
-            equal.append(elem)
+        # else:
+        #     equal.append(elem)
 
-    return quick_sort(less_then) + equal + quick_sort(more_then)
+    # return quick_sort(less_then) + equal + quick_sort(more_then)
+    return quick_sort(less_then) + [pivot, ] + quick_sort(more_then)

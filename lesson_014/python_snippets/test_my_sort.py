@@ -8,7 +8,7 @@ from any_sort import quick_sort
 class MySortTest(unittest.TestCase):
 
     def test_normal(self):
-        result = quick_sort([3, 4, 2, 8, 1, 6])
+        result = quick_sort([3, 4, 2, 8, 1, 4, 6])
         self.assertEqual(result, [1, 2, 3, 4, 6, 8])
 
     def test_sorted(self):
