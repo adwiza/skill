@@ -26,3 +26,7 @@ def quick_sort(slist):
 
     # return quick_sort(less_then) + equal + quick_sort(more_then)
     return quick_sort(less_then) + [pivot, ] + quick_sort(more_then)
+
+
+def embedded_sort(slist):
+    return list(set(sorted(slist)))
