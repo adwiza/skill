@@ -17,12 +17,12 @@
 # При создании собственных исключений максимально использовать функциональность
 # базовых встроенных исключений.
 from random import randint
-import logging
+import logging_
 
 ENLIGHTENMENT_CARMA_LEVEL = 777
 carma_level = 0
 carma_counter = 0
-logging.basicConfig(filename="log.txt", level=logging.ERROR)
+logging_.basicConfig(filename="log.txt", level=logging_.ERROR)
 
 
 def one_day():
@@ -52,22 +52,22 @@ while True:
         if probability == 1:
             alert = randint(1, 6)
             if alert == 1:
-                logging.error('IamGodError')
+                logging_.error('IamGodError')
                 raise BaseException("IamGodError")
             elif alert == 2:
-                logging.error('DrunkError')
+                logging_.error('DrunkError')
                 raise BaseException("DrunkError")
             elif alert == 3:
-                logging.error('CarCrashError')
+                logging_.error('CarCrashError')
                 raise BaseException("CarCrashError")
             elif alert == 4:
-                logging.error('GluttonyError')
+                logging_.error('GluttonyError')
                 raise BaseException("GluttonyError")
             elif alert == 5:
-                logging.error('DepressionError')
+                logging_.error('DepressionError')
                 raise BaseException("DepressionError")
             elif alert == 6:
-                logging.error('SuicideError')
+                logging_.error('SuicideError')
                 raise BaseException("SuicideError")
 
     carma_level += one_day()

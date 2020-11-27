@@ -8,7 +8,7 @@
 # Лог файл открывать каждый раз при ошибке в режиме 'a'
 
 import traceback
-import logging
+import logging_
 import sys
 from functools import wraps
 
@@ -19,12 +19,12 @@ def log_errors(log_file_name):
             try:
                 func(*args, **kwargs)
             except Exception as exc:
-                logging.basicConfig(filename=log_file_name, level=logging.ERROR)
+                logging_.basicConfig(filename=log_file_name, level=logging_.ERROR)
                 name = func.__name__
                 parameters = ' '.join(args)
                 error_message = exc
                 print(f' {name} {parameters} {error_message}')
-                logging.error(f' {name} {parameters} {error_message}')
+                logging_.error(f' {name} {parameters} {error_message}')
             return func
         return write_to_log
     return log_function

@@ -1,31 +1,7 @@
-import simple_draw as sd
+import  logging.config
 
-width = 100
-height = 50
-y = 0
-y1 = height
-for i in range(12):
-    start_point = sd.get_point(0, y)
-    end_point = sd.get_point(600, y)
-    sd.line(start_point, end_point, sd.COLOR_ORANGE, width=3)
-    if i % 2 == 0:
-        x1 = 0
-        x2 = 0
-        for _ in range(7):
-            start_point = sd.get_point(x1, y)
-            end_point = sd.get_point(x2, y + y1)
-            sd.line(start_point, end_point, sd.COLOR_ORANGE, width=3)
-            x1 += width
-            x2 += width
-    else:
-        x1 = width/2
-        x2 = width/2
-        for _ in range(6):
-            start_point = sd.get_point(x1, y)
-            end_point = sd.get_point(x2, y + y1)
-            sd.line(start_point, end_point, sd.COLOR_ORANGE, width=3)
-            x1 += width
-            x2 += width
-    y += height
+from primes_package.main import print_primes
+from log_settings import log_config
 
-sd.pause()
+logging.config.dictConfig(log_config)
+print_primes(30)
