@@ -1,5 +1,7 @@
 import unittest
 
+from any_sort import bubble_sort
+
 
 class BubleSortTest(unittest.TestCase):
     # нужно отнаследоваться от этого класса, чтобы заработала ммагия тестирования

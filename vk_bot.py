@@ -2,7 +2,11 @@
 import random
 import logging
 
-from settings import TOKEN, GROUP_ID
+try:
+    import settings
+except ImportError:
+    exit('DO cp settings.py.default settings.py and set up GROUP_ID and TOKEN vars!')
+
 import vk_api  # TODO fix version!!
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 
@@ -54,7 +58,7 @@ class Bot:
         """
         Отправлляет сообщение назад, если это текст.
 
-        :param event: TODO
+        :param event: VkBotMessageEvent object
         :return: None
         """
         if event.type == VkBotEventType.MESSAGE_NEW:
@@ -72,5 +76,5 @@ class Bot:
 
 if __name__ == '__main__':
     configure_logging()
-    bot = Bot(group_id=GROUP_ID, token=TOKEN)
+    bot = Bot(group_id=settings.GROUP_ID, token=settings.TOKEN)
     bot.run()
