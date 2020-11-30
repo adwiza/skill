@@ -66,7 +66,7 @@ class Bot:
             out_msg = f'Ты сказал: \"{event.object.text.upper()}\", я тебя понял!!!'
             log.debug('Отправляем сообщение назад')
             self.api.messages.send(
-                message=out_msg,
+                message=event.object.text,
                 random_id=random.randint(0, 2 ** 20),
                 peer_id=event.object.peer_id,
             )
