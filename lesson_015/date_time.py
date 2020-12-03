@@ -1,5 +1,6 @@
 import datetime
-import time
+import pytz
+import calendar
 
 # print(time.gmtime(0))
 # print(time.time())
@@ -73,3 +74,88 @@ print(f'Закончилась война в {raise_of_skynet_datetime + duratio
 print(f'А ведь могда продлиться {duration_of_the_war * 2}')
 
 war_time = datetime.timedelta(weeks=40, days=11358, hours=13, minutes=36, seconds=600)
+
+imcoming_date = '30-11-2021'
+imcoming_date_datetime = datetime.datetime.strptime(imcoming_date, '%d-%m-%Y')
+
+registration_end_time = datetime.datetime(year=2019, month=1, day=1)
+if imcoming_date_datetime > registration_end_time:
+    print('Отказ в регистрации')
+else:
+    print('Вы успешно зарегистрированы')
+
+# Про время
+
+print(f'Перечень всех доступных таймзон:, {pytz.all_timezones}')
+print(f'В перечне содержится информация о {len(pytz.all_timezones)} таймзонах')
+
+# Как ими пользоваться
+
+print('Asia/Vladivostok' in pytz.all_timezones)  # True
+
+vladivostok_time_zone = pytz.timezone('Asia/Vladivostok')
+
+moscow_time = datetime.datetime.today()
+print(f'Московскаое время {moscow_time}')
+vladivostok_time = moscow_time.astimezone(vladivostok_time_zone)
+print(f'Время во Владивостоке {vladivostok_time}')
+
+# Пример из двух городов России Владивосток и Калининград пришгли две заявки с датой и временем в их часовом поясе
+# Нужно узнать, кто из них первым совершил покупку
+
+print('Europe/Kaliningrad' in pytz.all_timezones)
+kaliningrad_time_zone = pytz.timezone('Europe/Kaliningrad')
+UTC_time_zone = pytz.utc
+request_from_vladivostok_str = '2019-06-15T16:22:00 +1000'
+request_from_kaliningrad_str = '2019-06-15T16:22:00 +0200'
+request_from_vladivostok = datetime.datetime.strptime(request_from_vladivostok_str, '%Y-%m-%dT%H:%M:%S %z')
+request_from_kaliningrad = datetime.datetime.strptime(request_from_kaliningrad_str, '%Y-%m-%dT%H:%M:%S %z')
+print(f'Время отправки запроса по местному Владивостокскому времени {request_from_vladivostok}')
+print(f'Время отправки запроса по местному Калининградскому времени {request_from_kaliningrad}')
+
+print(f'Сравниваем aware {request_from_vladivostok > request_from_kaliningrad}')
+
+# Отформатированную информацию приведем к UTC для сравнения
+
+request_from_vladivostok_UTC = request_from_vladivostok.astimezone(UTC_time_zone)
+request_from_kaliningrad_UTC = request_from_kaliningrad.astimezone(UTC_time_zone)
+first_request = request_from_vladivostok if request_from_kaliningrad_UTC > request_from_vladivostok_UTC else \
+    request_from_kaliningrad_UTC
+print(f'Время первого запроса {first_request}')
+if request_from_kaliningrad_UTC < request_from_vladivostok_UTC:
+    print('Первым пришел заказ из Калининграда')
+else:
+    print('Первым пришел заказ из Владивостока')
+
+# Модуль календарь
+
+# Позволяет вывести календарь в виде простого текста или в HTML формате
+
+# Создание строчного календаря
+calendar_text = calendar.TextCalendar()  # str
+# Далее, для отображения нужно уточнить год и месяц
+print(calendar_text.formatmonth(2021, 1))
+
+# так же можно создать HTML версию календаря
+calendar_html = calendar.HTMLCalendar()
+# print(calendar_html.formatmonth(2021, 1))
+
+# Например мы хотим посчитать, сколько рабочих дней (не учитывая праздники) будет в Январе 2025
+
+day_iterator = calendar_text.itermonthdays2(2021, 1)
+number_of_working_days = 0
+
+for data, weekday in day_iterator:
+    if data > 0 and weekday < 5:
+        number_of_working_days += 1
+print(f'В январе 2021 года {number_of_working_days} рабочих дней')
+
+# Помимо итераторов, можно вытаскивать из календаря списки дней в месяце
+print(f'Дни января в списках по неделям {calendar_text.monthdayscalendar(2021, 1)}')
+
+# Кроме прочего, доступ есть к названиям месяцев или дней недели
+for month in calendar.month_name:
+    print(month)
+print('=' * 20)
+for day in calendar.day_name:
+    print(day)
