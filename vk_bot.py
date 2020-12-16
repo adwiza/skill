@@ -83,6 +83,7 @@ class Bot:
         else:
             # search indent
             for intent in settings.INTENTS:
+                log.debug(f'User gets {intent}')
                 if any(token in text for token in intent['tokens']):
                     if intent['answer']:
                         text_to_send = intent['answer']
@@ -122,6 +123,7 @@ class Bot:
                 state.step_name = step['next_step']
             else:
                 # finish scenario
+                log.info('Зарегистрирован {name} {email}'.format(**state.context))
                 self.user_states.pop(user_id)
         else:
             # retry current step
