@@ -47,6 +47,7 @@ class Bot:
         :param group_id: group_id из группы vk
         :param token: секретный токен из группы vk
         """
+        self.VkBotLongPoll = None
         self.group_id = group_id
         self.token = token
         self.vk = vk_api.VkApi(token=token)
@@ -84,7 +85,7 @@ class Bot:
             # search indent
             for intent in settings.INTENTS:
                 log.debug(f'User gets {intent}')
-                if any(token in text for token in intent['tokens']):
+                if any(token in text.lower() for token in intent['tokens']):
                     if intent['answer']:
                         text_to_send = intent['answer']
                     else:
