@@ -48,3 +48,4 @@ class MyAuth(requests.auth.AuthBase):
 
 
 print(requests.get(url_get, auth=MyAuth()).text)
+
