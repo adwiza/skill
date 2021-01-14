@@ -1,8 +1,8 @@
 certifi==2020.6.20
 chardet==3.0.4
 idna==2.10
-pickleshare==0.7.5
-pkg-resources==0.0.0
+pony==0.7.14
+psycopg2==2.8.6
 requests==2.24.0
 six==1.15.0
 urllib3==1.25.10
