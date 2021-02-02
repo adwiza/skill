@@ -1,10 +1,22 @@
 from copy import deepcopy
 from unittest import TestCase
 from unittest.mock import patch, Mock, ANY
+
+from pony.orm import db_session, rollback
+
 import settings
 from vk_api.bot_longpoll import VkBotMessageEvent
 
+from generate_ticket import generate_ticket
 from vk_bot import Bot
+
+
+def isolated_db(test_func):
+    def wrapper(*args, **kwargs):
+        with db_session:
+            test_func(*args, **kwargs)
+            rollback()
+    return wrapper
 
 
 class Test1(TestCase):
@@ -54,6 +66,7 @@ class Test1(TestCase):
         settings.SCENARIOS['registration']['steps']['step3']['text'].format(name='Вениамин', email='email@email.ru')
     ]
 
+    @isolated_db
     def test_run_ok(self):
         send_mock = Mock()
         api_mok = Mock()
@@ -80,3 +93,14 @@ class Test1(TestCase):
             args, kwargs = call
             real_outputs.append(kwargs['message'])
         assert real_outputs == self.EXPECTED_OUTPUTS
+
+    def test_image_generation(self):
+        # with open('lesson_016/ticket/avatar.png', 'rb') as avatar_file:
+        #     avatar_mock = Mock()
+        #     avatar_mock.content = avatar_file.read()
+        # with patch('request.get', return_value=avatar_mock):
+        ticket_file = generate_ticket('Алексей', 'adwiz@suroviy.ru')
+
+        with open('lesson_016/ticket/ticket-example.png', 'rb') as expected_file:
+            expected_bytes = expected_file.read()
+        assert ticket_file.read() == expected_bytes
