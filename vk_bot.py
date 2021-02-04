@@ -56,7 +56,7 @@ class Bot:
             try:
                 self.on_event(event)
             except Exception:
-                log.exception('Ошибка в обработке события!!! ')
+                log.exception('Ошибка в обработке события!!!')
 
     @db_session
     def on_event(self, event):
