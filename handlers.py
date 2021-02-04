@@ -30,4 +30,4 @@ def handle_email(text, context):
 
 
 def generate_ticket_handler(text, context):
-    return generate_ticket(name=context['name'], email=['email'])
+    return generate_ticket(name=context['name'], email=context['email'])
