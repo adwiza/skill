@@ -102,8 +102,16 @@ class Bot:
 
     def send_image(self, image, user_id):
         upload_url = self.api.photos.getMessagesUploadServer()['upload_url']
-        response = requests.post(url=upload_url, files={'photo': image})
-        print(response)
+        upload_data = requests.post(url=upload_url, files={'photo': ('image.png', image, 'image/png')}).json()
+        image_data = self.api.photos.saveMessagesPhoto(**upload_data)
+        owner_id = image_data[0]['owner_id']
+        media_id = image_data[0]['id']
+        attachment = f'photo{owner_id}_{media_id}'
+        self.api.messages.send(
+            message=attachment,
+            random_id=random.randint(0, 2 ** 20),
+            peer_id=user_id,
+        )
 
     def send_step(self, step, user_id, text, context):
         if 'text' in step:
