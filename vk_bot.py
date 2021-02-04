@@ -2,6 +2,7 @@
 import random
 import logging
 
+import requests
 from pony.orm import db_session
 
 import handlers
@@ -100,7 +101,9 @@ class Bot:
         )
 
     def send_image(self, image, user_id):
-        pass  # TODO
+        upload_url = self.api.photos.getMessagesUploadServer()['upload_url']
+        response = requests.post(url=upload_url, files={'photo': image})
+        print(response)
 
     def send_step(self, step, user_id, text, context):
         if 'text' in step:
